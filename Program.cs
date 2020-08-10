@@ -19,6 +19,7 @@
     {
         public string SkeletonPath;
         public List<string> AnimationPaths;
+        public bool MergeAnimations;
     }
 
     public class main
@@ -75,7 +76,9 @@
             }
             Console.WriteLine(anims + " Total Animation(s).");
 
-            FbxExport.ExportFbx(cwd + "\\..\\results\\" + configName + ".fbx", model.Meshes, model_skel, paps);
+            var mode = config.MergeAnimations == true ? 1 : 0;
+            Console.WriteLine("Animation Merging: " + (mode > 0 ? "Enabled" : "Disabled"));
+            FbxExport.ExportFbx(cwd + "\\..\\results\\" + configName + ".fbx", model.Meshes, model_skel, paps, mode);
 
         }
         private static SklbFile InitSklb(string path)
