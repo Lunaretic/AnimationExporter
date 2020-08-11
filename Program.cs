@@ -20,6 +20,7 @@
         public string SkeletonPath;
         public List<string> AnimationPaths;
         public bool MergeAnimations;
+        public bool IncludeBindPose;
     }
 
     public class main
@@ -76,8 +77,24 @@
             }
             Console.WriteLine(anims + " Total Animation(s).");
 
-            var mode = config.MergeAnimations == true ? 1 : 0;
-            Console.WriteLine("Animation Merging: " + (mode > 0 ? "Enabled" : "Disabled"));
+            var mode = 0;
+            if(config.MergeAnimations)
+            {
+                Console.WriteLine("Animation Merging: Enabled");
+                mode = mode | 1;
+            } else
+            {
+                Console.WriteLine("Animation Merging: Disabled");
+            }
+
+            if (config.IncludeBindPose) {
+                mode = mode | 2;
+                Console.WriteLine("Include Frame 0 Bind Pose: Enabled");
+            } else
+            {
+                Console.WriteLine("Include Frame 0 Bind Pose: Disabled");
+            }
+
             FbxExport.ExportFbx(cwd + "\\..\\results\\" + configName + ".fbx", model.Meshes, model_skel, paps, mode);
 
         }
